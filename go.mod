@@ -4,9 +4,13 @@ go 1.19
 
 require (
 	github.com/go-sql-driver/mysql v1.8.0
+	github.com/go-logr/logr v1.2.3
+	k8s.io/apimachinery v0.25.0
+    k8s.io/client-go v0.25.0
+    sigs.k8s.io/controller-runtime v0.13.1
 	github.com/go-xorm/xorm v0.7.9
 	github.com/spf13/viper v1.12.0
-	github.com/sqc157400661/util v0.0.4
+	github.com/sqc157400661/util v0.0.5
 	github.com/stretchr/testify v1.7.1
 	github.com/xdg-go/stringprep v1.0.4
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4
