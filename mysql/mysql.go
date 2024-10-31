@@ -25,7 +25,7 @@ func (m ConnectInfo) DSN() string {
 	if len(m.Socket) > 0 {
 		return fmt.Sprintf("%s:%s@unix(%s)/%s?charset=utf8&interpolateParams=true", m.User, m.Passwd, m.Socket, m.DB)
 	}
-	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&interpolateParams=true&parseTime=true%s", m.User, m.Passwd, m.Host, m.Port, m.DB)
+	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&interpolateParams=true&parseTime=true", m.User, m.Passwd, m.Host, m.Port, m.DB)
 }
 
 // NewMySQLEngine returns db engine of mysql
