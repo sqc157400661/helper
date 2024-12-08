@@ -1,4 +1,4 @@
-package k8s
+package kube
 
 import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
