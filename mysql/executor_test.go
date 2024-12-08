@@ -10,12 +10,14 @@ func TestExecutor(t *testing.T) {
 		Host:   "127.0.0.1",
 		Port:   3306,
 		User:   "root",
-		Passwd: "",
+		Passwd: "157400661",
 	}, true, true)
 	assert.NoError(t, err)
 	executor := NewExecutorByEngine(eng)
 	_, err = executor.ShowSlaveStatus()
 	assert.NoError(t, err)
 	_, err = executor.ShowMasterStatus()
+	assert.NoError(t, err)
+	err = executor.StartSlave()
 	assert.NoError(t, err)
 }

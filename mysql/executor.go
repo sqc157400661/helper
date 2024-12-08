@@ -51,12 +51,12 @@ func NewExecutorByEngine(eng *xorm.Engine) *Executor {
 }
 
 func (e *Executor) MakeBinLogOffBySession() error {
-	_, err := e.eng.SQL("SET SQL_LOG_BIN=0").Exec()
+	_, err := e.eng.Exec("SET SQL_LOG_BIN=0")
 	return err
 }
 
 func (e *Executor) MakeBinLogOnBySession() error {
-	_, err := e.eng.SQL("SET SQL_LOG_BIN=1").Exec()
+	_, err := e.eng.Exec("SET SQL_LOG_BIN=1")
 	return err
 }
 
@@ -73,32 +73,32 @@ func (e *Executor) ShowMasterStatus() (MasterStatus, error) {
 }
 
 func (e *Executor) StartSlave() error {
-	_, err := e.eng.SQL("START SLAVE").Exec()
+	_, err := e.eng.Exec("START SLAVE")
 	return err
 }
 
 func (e *Executor) StopSlave() error {
-	_, err := e.eng.SQL("STOP SLAVE").Exec()
+	_, err := e.eng.Exec("STOP SLAVE")
 	return err
 }
 
 func (e *Executor) StopSlaveIOThread() error {
-	_, err := e.eng.SQL("STOP SLAVE IO_THREAD").Exec()
+	_, err := e.eng.Exec("STOP SLAVE IO_THREAD")
 	return err
 }
 
 func (e *Executor) ResetSlave() error {
-	_, err := e.eng.SQL("RESET SLAVE").Exec()
+	_, err := e.eng.Exec("RESET SLAVE")
 	return err
 }
 
 func (e *Executor) ResetSlaveALL() error {
-	_, err := e.eng.SQL("RESET SLAVE ALL").Exec()
+	_, err := e.eng.Exec("RESET SLAVE ALL")
 	return err
 }
 
 func (e *Executor) ResetMaster() error {
-	_, err := e.eng.SQL("RESET MASTER").Exec()
+	_, err := e.eng.Exec("RESET MASTER")
 	return err
 }
 
@@ -125,39 +125,39 @@ func (e *Executor) IsReadOnly() (res bool, err error) {
 }
 
 func (e *Executor) SetReadonlyON() error {
-	_, err := e.eng.SQL("SET GLOBAL read_only = ON").Exec()
+	_, err := e.eng.Exec("SET GLOBAL read_only = ON")
 	return err
 }
 
 func (e *Executor) SetReadonlyOFF() error {
-	_, err := e.eng.SQL("SET GLOBAL read_only = OFF").Exec()
+	_, err := e.eng.Exec("SET GLOBAL read_only = OFF")
 	return err
 }
 
 func (e *Executor) LockTables() error {
-	_, err := e.eng.SQL("FLUSH TABLES WITH READ LOCK").Exec()
+	_, err := e.eng.Exec("FLUSH TABLES WITH READ LOCK")
 	return err
 }
 
 func (e *Executor) UnlockTables() error {
-	_, err := e.eng.SQL("UNLOCK TABLE").Exec()
+	_, err := e.eng.Exec("UNLOCK TABLE")
 	return err
 }
 
 func (e *Executor) MasterPosWait(logFile string, logPos int, timeout int) error {
 	sql := fmt.Sprintf("SELECT MASTER_POS_WAIT('%s', %d, %d)", logFile, logPos, timeout)
-	_, err := e.eng.SQL(sql).Exec()
+	_, err := e.eng.Exec(sql)
 	return err
 }
 
 func (e *Executor) WaitUntilAfterGTIDs(gtids string) error {
 	sql := fmt.Sprintf("SELECT WAIT_UNTIL_SQL_THREAD_AFTER_GTIDS('%s')", gtids)
-	_, err := e.eng.SQL(sql).Exec()
+	_, err := e.eng.Exec(sql)
 	return err
 }
 
 func (e *Executor) ChangeMasterToWithAuto(host string, port int, replUserName, replUserPasswd string) error {
 	sql := fmt.Sprintf(changeMasterToWithAuto, host, port, replUserName, replUserPasswd)
-	_, err := e.eng.SQL(sql).Exec()
+	_, err := e.eng.Exec(sql)
 	return err
 }
