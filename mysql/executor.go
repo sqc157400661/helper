@@ -31,6 +31,17 @@ type MasterStatus struct {
 	ExecutedGTIDSet string `json:"Executed_Gtid_Set"`
 }
 
+type ProcessList struct {
+	Id      int    `xorm:"Id" json:"Id"`
+	User    string `xorm:"User" json:"User"`
+	Host    string `xorm:"Host" json:"Host"`
+	Db      string `xorm:"db" json:"db"`
+	Command string `xorm:"Command" json:"Command"`
+	Time    int    `xorm:"Time" json:"Time"`
+	State   string `xorm:"State" json:"State"`
+	Info    string `xorm:"Info" json:"Info"`
+}
+
 type SlaveStatus struct {
 	SlaveIORunning      string `json:"Slave_IO_Running"`
 	SlaveSQLRunning     string `json:"Slave_SQL_Running"`
@@ -160,4 +171,9 @@ func (e *Executor) ChangeMasterToWithAuto(host string, port int, replUserName, r
 	sql := fmt.Sprintf(changeMasterToWithAuto, host, port, replUserName, replUserPasswd)
 	_, err := e.eng.Exec(sql)
 	return err
+}
+
+func (e *Executor) ShowProcesslist() error {
+	var processList []ProcessList
+	return e.eng.SQL("SHOW PROCESSLIST").Find(&processList)
 }
