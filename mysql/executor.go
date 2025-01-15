@@ -173,7 +173,7 @@ func (e *Executor) ChangeMasterToWithAuto(host string, port int, replUserName, r
 	return err
 }
 
-func (e *Executor) ShowProcesslist() error {
-	var processList []ProcessList
-	return e.eng.SQL("SHOW PROCESSLIST").Find(&processList)
+func (e *Executor) ShowProcesslist() (processList []ProcessList, err error) {
+	err = e.eng.SQL("SHOW PROCESSLIST").Find(&processList)
+	return
 }
