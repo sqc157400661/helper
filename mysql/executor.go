@@ -3,6 +3,7 @@ package mysql
 import (
 	"fmt"
 	"github.com/go-xorm/xorm"
+	"time"
 )
 
 const (
@@ -29,6 +30,16 @@ type MasterStatus struct {
 	BinlogDoDB      string `json:"Binlog_Do_DB"`
 	BinlogIgnoreDB  string `json:"Binlog_Ignore_DB"`
 	ExecutedGTIDSet string `json:"Executed_Gtid_Set"`
+}
+
+// SlaveHost  SHOW SLAVE HOSTS result
+type SlaveHost struct {
+	ServerID  int       `xorm:"Server_id" json:"server_id"`
+	Host      string    `xorm:"Host" json:"host"`
+	Port      int       `xorm:"Port" json:"port"`
+	MasterID  int       `xorm:"Master_id" json:"master_id"`
+	SlaveUUID string    `xorm:"Slave_UUID" json:"slave_uuid"`
+	LastSeen  time.Time `xorm:"Last_Seen" json:"last_seen"`
 }
 
 type ProcessList struct {
@@ -175,5 +186,10 @@ func (e *Executor) ChangeMasterToWithAuto(host string, port int, replUserName, r
 
 func (e *Executor) ShowProcesslist() (processList []ProcessList, err error) {
 	err = e.eng.SQL("SHOW PROCESSLIST").Find(&processList)
+	return
+}
+
+func (e *Executor) ShowSlaveHosts() (res []*SlaveHost, err error) {
+	err = e.eng.SQL("SHOW SLAVE HOSTS").Find(&res)
 	return
 }
