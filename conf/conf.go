@@ -33,7 +33,7 @@ func Setup(path string, common ...string) {
 	return
 }
 
-func IsEnv() bool {
+func IsDev() bool {
 	return GetEnv() == EnvDev
 }
 
