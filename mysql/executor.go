@@ -3,6 +3,7 @@ package mysql
 import (
 	"fmt"
 	"github.com/go-xorm/xorm"
+	"strconv"
 	"time"
 )
 
@@ -136,9 +137,32 @@ func (e *Executor) MysqlGTIDMode() (string, error) {
 	return GTIDModeOff, nil
 }
 
+func (e *Executor) ServerUUID() (string, error) {
+	var res string = ""
+	_, err := e.eng.SQL("SELECT @@server_uuid").Get(&res)
+	if err != nil {
+		return "", err
+	}
+	return res, nil
+}
+
+func (e *Executor) Version() (res bool, err error) {
+	_, err = e.eng.SQL("SELECT VERSION()").Get(&res)
+	return
+}
+
+func (e *Executor) ServerID() (id int, err error) {
+	var variable Variable
+	_, err = e.eng.SQL("SHOW VARIABLES LIKE 'server_id'").Get(&variable)
+	if err != nil {
+		return
+	}
+	return strconv.Atoi(variable.Value)
+}
+
 func (e *Executor) IsReadOnly() (res bool, err error) {
 	var variable Variable
-	_, err = e.eng.SQL("SHOW VARIABLES LIKE 'read_only' ").Get(&variable)
+	_, err = e.eng.SQL("SHOW VARIABLES LIKE 'read_only'").Get(&variable)
 	if err != nil {
 		return false, err
 	}
