@@ -146,7 +146,7 @@ func (e *Executor) ServerUUID() (string, error) {
 	return res, nil
 }
 
-func (e *Executor) Version() (res bool, err error) {
+func (e *Executor) Version() (res string, err error) {
 	_, err = e.eng.SQL("SELECT VERSION()").Get(&res)
 	return
 }
